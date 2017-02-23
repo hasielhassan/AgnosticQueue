@@ -3,8 +3,9 @@ Agnostic Process Queue Template with PySide
 
 Also its a flexible widget tu build a process queue for your own apps.
 
-Sample:
+#Sample:
 
+```python
 import sys
 from PySide import QtCore, QtGui
 import AgnosticQueue as queue
@@ -33,5 +34,4 @@ queue_app.setWindowTitle('AgnosticQueue')
 queue_app.show()
 
 sys.exit(app.exec_())
-
-
+```
