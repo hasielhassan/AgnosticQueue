@@ -2,8 +2,10 @@ import os
 import sys
 import time
 import random
+import traceback
 from PySide import QtCore, QtGui
-from ui.job_card_form import Ui_Form
+from ui.job_card_form import Ui_Form as card_form
+from ui.queue_dialog_form import Ui_Form as dialog_form
 
 
 class Card(QtGui.QWidget):
@@ -13,7 +15,7 @@ class Card(QtGui.QWidget):
     def __init__(self, name, worker):
         super(Card, self).__init__()
 
-        self.ui = Ui_Form()
+        self.ui = card_form()
         self.ui.setupUi(self)
 
         self.name = name
@@ -23,6 +25,10 @@ class Card(QtGui.QWidget):
 
         self.worker = worker
         self.worker.updateProgress.connect(self.setProgress)
+        self.worker.failCard.connect(self.setFailedCard)
+
+        self.ui.kill_button.setEnabled(False)
+        self.ui.kill_button.clicked.connect(self.show_error)
 
     def start(self):
 
@@ -36,9 +42,29 @@ class Card(QtGui.QWidget):
             self.ui.progressBar.setValue(value)
             self.finish_process.emit(self)
 
+    def setFailedCard(self, error):
+
+        self.ui.progressBar.setValue(100)
+        self.change_color("Red")
+
+        self.error = error
+        self.ui.kill_button.setEnabled(True)
+        self.finish_process.emit(self)
+
+    def show_error(self):
+
+        QtGui.QMessageBox.information(self, "Reported Error", self.error)
+
+    def change_color(self, color):
+        template_css = """QProgressBar::chunk { background: %s; }"""
+        css = template_css % color
+        self.ui.progressBar.setStyleSheet(css)
+
 class CardProcessWorker(QtCore.QThread):
 
     updateProgress = QtCore.Signal(float)
+
+    failCard = QtCore.Signal(str)
 
     def __init__(self, data):
         QtCore.QThread.__init__(self)
@@ -57,19 +83,14 @@ class Queue(QtGui.QWidget):
     def __init__(self):
         super(Queue, self).__init__()
 
-        self.widget = QtGui.QWidget()
-        layout = QtGui.QVBoxLayout(self.widget)
-
-        self.setLayout(layout)
+        self.ui = dialog_form()
+        self.ui.setupUi(self)
 
         self.cards = []
         self.current = []
         self.completed = []
 
-        self.start_button = QtGui.QPushButton()
-        self.start_button.setText("Start Queue")
-        self.start_button.clicked.connect(self.start_queue)
-        self.layout().addWidget(self.start_button, 0)
+        self.ui.start_button.clicked.connect(self.start_queue)
 
     def fill_queue(self, data):
 
@@ -82,10 +103,10 @@ class Queue(QtGui.QWidget):
         card.finish_process.connect(self.on_card_finish)
 
         self.cards.insert(0, card)
-        self.layout().addWidget(card, 0)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(card, 0)
 
     def start_queue(self):
-
+        
         self.processes_queue()
 
     def processes_queue(self):
