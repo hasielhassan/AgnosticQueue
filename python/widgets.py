@@ -2,14 +2,19 @@ import os
 import sys
 import time
 import random
+import pprint
+import datetime
 import traceback
+
 from PySide import QtCore, QtGui
+
 from ui.job_card_form import Ui_Form as card_form
 from ui.queue_dialog_form import Ui_Form as dialog_form
-
+from ui.queue_overview_form import Ui_Form as overview_form
 
 class Card(QtGui.QWidget):
 
+    update_overview = QtCore.Signal(QtGui.QWidget, float)
     finish_process = QtCore.Signal(QtGui.QWidget)
 
     def __init__(self, name, worker):
@@ -35,6 +40,8 @@ class Card(QtGui.QWidget):
         self.worker.start()
 
     def setProgress(self, value):
+
+        self.update_overview.emit(self, value)
 
         if value < 100:
             self.ui.progressBar.setValue(value)
@@ -83,14 +90,26 @@ class Queue(QtGui.QWidget):
     def __init__(self):
         super(Queue, self).__init__()
 
+        self.cards_progress = {}
+
         self.ui = dialog_form()
         self.ui.setupUi(self)
+
+        self.setup_overview()
 
         self.cards = []
         self.current = []
         self.completed = []
 
         self.ui.start_button.clicked.connect(self.start_queue)
+
+    def setup_overview(self):
+
+        self.overview_widget = QtGui.QWidget()
+        self.overview_widget.ui = overview_form()
+        self.overview_widget.ui.setupUi(self.overview_widget)
+        self.overview_widget.ui.general_progress.setValue(0)
+        self.ui.verticalLayout.addWidget(self.overview_widget, 0)
 
     def fill_queue(self, data):
 
@@ -101,12 +120,44 @@ class Queue(QtGui.QWidget):
 
         card = Card(name, worker)
         card.finish_process.connect(self.on_card_finish)
+        card.update_overview.connect(self.setProgress)
 
         self.cards.insert(0, card)
         self.ui.scrollAreaWidgetContents.layout().addWidget(card, 0)
 
+    def setProgress(self, card, value):
+
+        self.cards_progress[card.name] = value
+
+        total_cards = sum([len(self.cards), len(self.current), len(self.completed)])
+        processed_card_progress = sum([self.cards_progress[item] for item in self.cards_progress])
+        overview_value = processed_card_progress / total_cards
+
+        self.overview_widget.ui.general_progress.setValue(overview_value)
+
+        current_time = datetime.datetime.now()
+        lapsed_time = current_time - self.start_time
+
+        l_hours = str(lapsed_time.seconds / 3600)
+        seconds_left = lapsed_time.seconds % 3600
+        l_minutes = str(seconds_left / 60)
+        l_seconds = str(seconds_left & 60)
+        remaining_string = "Lapsed time:: %s:%s:%s" % (l_hours.zfill(2), l_minutes.zfill(2), l_seconds.zfill(2))
+        self.overview_widget.ui.lapsed_time_label.setText(remaining_string)
+
+        if int(overview_value) != 0:
+            
+            time_remaining = (lapsed_time / int(overview_value)) * (100 - int(overview_value))
+            r_hours = str(time_remaining.seconds / 3600)
+            seconds_left = time_remaining.seconds % 3600
+            r_minutes = str(seconds_left / 60)
+            r_seconds = str(seconds_left & 60)
+            remaining_string = "Estimated time remaining: %s:%s:%s" % (r_hours.zfill(2), r_minutes.zfill(2), r_seconds.zfill(2))
+            self.overview_widget.ui.estimated_time_label.setText(remaining_string)
+
     def start_queue(self):
         
+        self.start_time = datetime.datetime.now()
         self.processes_queue()
 
     def processes_queue(self):
