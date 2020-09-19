@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import random
-from PySide import QtCore, QtGui
+from Qt import QtCore, QtGui, QtWidgets
 
 from widgets import *
 
@@ -24,16 +24,17 @@ for item in items:
     worker = CustomProcessWorker(item)
     queue_data.append((item, worker))
 
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 
 queue_app = Queue()
 queue_app.fill_queue(queue_data)
 queue_app.resize(450, 150)
 queue_app.setWindowTitle('AgnosticQueue')
-print os.path.abspath(__file__)
+
+# pretty icon for the qapp :P
 resources_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'resources')
 icon_path = os.path.join(resources_folder, 'queue_icon.png')
-print icon_path
+
 queue_app.setWindowIcon(QtGui.QIcon(icon_path))
 queue_app.show()
 

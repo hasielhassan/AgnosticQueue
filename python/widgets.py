@@ -6,19 +6,19 @@ import pprint
 import datetime
 import traceback
 
-from PySide import QtCore, QtGui
+from Qt import QtCore, QtWidgets
 
 from ui.job_card_form import Ui_Form as card_form
 from ui.queue_dialog_form import Ui_Form as dialog_form
 from ui.queue_overview_form import Ui_Form as overview_form
 
-class Card(QtGui.QWidget):
+class JobCard(QtWidgets.QWidget):
 
-    update_overview = QtCore.Signal(QtGui.QWidget, float)
-    finish_process = QtCore.Signal(QtGui.QWidget)
+    update_overview = QtCore.Signal(QtWidgets.QWidget, float)
+    finish_process = QtCore.Signal(QtWidgets.QWidget)
 
     def __init__(self, name, worker):
-        super(Card, self).__init__()
+        super(JobCard, self).__init__()
 
         self.ui = card_form()
         self.ui.setupUi(self)
@@ -60,7 +60,7 @@ class Card(QtGui.QWidget):
 
     def show_error(self):
 
-        QtGui.QMessageBox.information(self, "Reported Error", self.error)
+        QtWidgets.QMessageBox.information(self, "Reported Error", self.error)
 
     def change_color(self, color):
         template_css = """QProgressBar::chunk { background: %s; }"""
@@ -85,10 +85,10 @@ class CardProcessWorker(QtCore.QThread):
             time.sleep(seed)
             self.updateProgress.emit(float(i))
 
-class Queue(QtGui.QWidget):
+class QueueWidget(QtWidgets.QWidget):
 
     def __init__(self):
-        super(Queue, self).__init__()
+        super(QueueWidget, self).__init__()
 
         self.cards_progress = {}
 
@@ -105,7 +105,7 @@ class Queue(QtGui.QWidget):
 
     def setup_overview(self):
 
-        self.overview_widget = QtGui.QWidget()
+        self.overview_widget = QtWidgets.QWidget()
         self.overview_widget.ui = overview_form()
         self.overview_widget.ui.setupUi(self.overview_widget)
         self.overview_widget.ui.general_progress.setValue(0)
@@ -118,7 +118,7 @@ class Queue(QtGui.QWidget):
 
     def create_card(self, name, worker):
 
-        card = Card(name, worker)
+        card = JobCard(name, worker)
         card.finish_process.connect(self.on_card_finish)
         card.update_overview.connect(self.setProgress)
 
@@ -176,4 +176,4 @@ class Queue(QtGui.QWidget):
         if len(self.cards) != 0:
             self.processes_queue()
         elif len(self.current) == 0:
-            QtGui.QMessageBox.information(self, "Finish!", "The queue has been completed!")
+            QtWidgets.QMessageBox.information(self, "Finish!", "The queue has been completed!")

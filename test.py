@@ -1,8 +1,10 @@
 
-from PySide import QtCore, QtGui
-import AgnosticQueue as queue
+import sys
 
-class CustomProcessWorker(queue.widgets.CardProcessWorker):
+from Qt import QtCore, QtWidgets
+from AgnosticQueue import QueueWidget, CardProcessWorker
+
+class CustomProcessWorker(CardProcessWorker):
 
     def run(self):
 
@@ -20,9 +22,9 @@ for item in items:
     worker = CustomProcessWorker(item)
     queue_data.append((item, worker))
 
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 
-queue_app = queue.widgets.Queue()
+queue_app = QueueWidget()
 queue_app.fill_queue(queue_data)
 queue_app.resize(450, 150)
 queue_app.setWindowTitle('AgnosticQueue')

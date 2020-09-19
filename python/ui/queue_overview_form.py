@@ -1,47 +1,70 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'queue_overview_form.ui'
-#
-# Created: Sun Apr 09 15:07:29 2017
-#      by: pyside-uic 0.2.15 running on PySide 1.2.4
-#
-# WARNING! All changes made in this file will be lost!
+################################################################################
+## Form generated from reading UI file 'queue_overview_form.ui'
+##
+## Created by: Qt User Interface Compiler version 5.15.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
-from PySide import QtCore, QtGui
+from Qt.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
+    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
+from Qt.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
+    QPixmap, QRadialGradient)
+from Qt.QtWidgets import *
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setObjectName("Form")
+        if not Form.objectName():
+            Form.setObjectName(u"Form")
         Form.resize(449, 86)
-        self.verticalLayout = QtGui.QVBoxLayout(Form)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtGui.QLabel(Form)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
+        self.verticalLayout = QVBoxLayout(Form)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.label = QLabel(Form)
+        self.label.setObjectName(u"label")
+        self.label.setAlignment(Qt.AlignCenter)
+
         self.verticalLayout.addWidget(self.label)
-        self.horizontalLayout = QtGui.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.lapsed_time_label = QtGui.QLabel(Form)
-        self.lapsed_time_label.setObjectName("lapsed_time_label")
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.lapsed_time_label = QLabel(Form)
+        self.lapsed_time_label.setObjectName(u"lapsed_time_label")
+
         self.horizontalLayout.addWidget(self.lapsed_time_label)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.estimated_time_label = QtGui.QLabel(Form)
-        self.estimated_time_label.setObjectName("estimated_time_label")
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.estimated_time_label = QLabel(Form)
+        self.estimated_time_label.setObjectName(u"estimated_time_label")
+
         self.horizontalLayout.addWidget(self.estimated_time_label)
+
+
         self.verticalLayout.addLayout(self.horizontalLayout)
-        self.general_progress = QtGui.QProgressBar(Form)
-        self.general_progress.setProperty("value", 24)
-        self.general_progress.setAlignment(QtCore.Qt.AlignCenter)
-        self.general_progress.setObjectName("general_progress")
+
+        self.general_progress = QProgressBar(Form)
+        self.general_progress.setObjectName(u"general_progress")
+        self.general_progress.setValue(24)
+        self.general_progress.setAlignment(Qt.AlignCenter)
+
         self.verticalLayout.addWidget(self.general_progress)
 
+
         self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+
+        QMetaObject.connectSlotsByName(Form)
+    # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Form", "Overall Progress", None, QtGui.QApplication.UnicodeUTF8))
-        self.lapsed_time_label.setText(QtGui.QApplication.translate("Form", "Lapsed time: 00:00:00", None, QtGui.QApplication.UnicodeUTF8))
-        self.estimated_time_label.setText(QtGui.QApplication.translate("Form", "Estimated time remaining: 00:00:00", None, QtGui.QApplication.UnicodeUTF8))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.label.setText(QCoreApplication.translate("Form", u"Overall Progress", None))
+        self.lapsed_time_label.setText(QCoreApplication.translate("Form", u"Lapsed time: 00:00:00", None))
+        self.estimated_time_label.setText(QCoreApplication.translate("Form", u"Estimated time remaining: 00:00:00", None))
+    # retranslateUi
 

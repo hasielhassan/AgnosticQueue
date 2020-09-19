@@ -1,38 +1,53 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'queue_dialog_form.ui'
-#
-# Created: Sun Apr 09 15:07:27 2017
-#      by: pyside-uic 0.2.15 running on PySide 1.2.4
-#
-# WARNING! All changes made in this file will be lost!
+################################################################################
+## Form generated from reading UI file 'queue_dialog_form.ui'
+##
+## Created by: Qt User Interface Compiler version 5.15.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
-from PySide import QtCore, QtGui
+from Qt.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
+    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
+from Qt.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
+    QPixmap, QRadialGradient)
+from Qt.QtWidgets import *
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        Form.setObjectName("Form")
+        if not Form.objectName():
+            Form.setObjectName(u"Form")
         Form.resize(412, 548)
-        self.verticalLayout = QtGui.QVBoxLayout(Form)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.start_button = QtGui.QPushButton(Form)
-        self.start_button.setObjectName("start_button")
+        self.verticalLayout = QVBoxLayout(Form)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.start_button = QPushButton(Form)
+        self.start_button.setObjectName(u"start_button")
+
         self.verticalLayout.addWidget(self.start_button)
-        self.ScrollArea = QtGui.QScrollArea(Form)
+
+        self.ScrollArea = QScrollArea(Form)
+        self.ScrollArea.setObjectName(u"ScrollArea")
         self.ScrollArea.setWidgetResizable(True)
-        self.ScrollArea.setObjectName("ScrollArea")
-        self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 392, 499))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.verticalLayout_2 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 392, 499))
+        self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.ScrollArea.setWidget(self.scrollAreaWidgetContents)
+
         self.verticalLayout.addWidget(self.ScrollArea)
 
+
         self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+
+        QMetaObject.connectSlotsByName(Form)
+    # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.start_button.setText(QtGui.QApplication.translate("Form", "Start Queue", None, QtGui.QApplication.UnicodeUTF8))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+        self.start_button.setText(QCoreApplication.translate("Form", u"Start Queue", None))
+    # retranslateUi
 

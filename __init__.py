@@ -1,1 +1,1 @@
-from python import widgets
+from python.widgets import *
