@@ -2,9 +2,12 @@ import os
 import sys
 import time
 import random
-from Qt import QtCore, QtGui, QtWidgets
+from Qt import QtGui, QtWidgets
 
-from widgets import *
+
+from python.widgets import *
+# you might want to replace previous import with:
+#from AgnosticQueue import QueueWidget, CardProcessWorker
 
 class CustomProcessWorker(CardProcessWorker):
 
@@ -26,13 +29,13 @@ for item in items:
 
 app = QtWidgets.QApplication(sys.argv)
 
-queue_app = Queue()
+queue_app = QueueWidget()
 queue_app.fill_queue(queue_data)
 queue_app.resize(450, 150)
 queue_app.setWindowTitle('AgnosticQueue')
 
 # pretty icon for the qapp :P
-resources_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'resources')
+resources_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources')
 icon_path = os.path.join(resources_folder, 'queue_icon.png')
 
 queue_app.setWindowIcon(QtGui.QIcon(icon_path))
